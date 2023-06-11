@@ -170,6 +170,86 @@ void Vorpal::GetApplication(std::string appId) {
     }
 }
 
+void Vorpal::registr(std::string username, std::string password, std::string email) {
+    auto cli = SecureInit();
+
+    cli.set_default_headers({
+        {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
+        {strEnc("ValorKey"), this->GetValorKey()},
+        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")} //TODO: some cool system with user-agents that change every 2 minutes.
+        });
+
+    httplib::Params params{
+        { strEnc("username"), Utils::base64UrlEncode(username).c_str() },
+        { strEnc("email"), Utils::base64UrlEncode(email).c_str() },
+        { strEnc("password"), Utils::base64UrlEncode(password).c_str() },
+    };
+
+    auto result = cli.Post(strEnc("/API/register"), params);
+
+    if (result) {
+        if (!result->has_header(strEnc("Authorization"))) {
+            this->CloseProgram();
+        }
+
+        auto val = result->get_header_value(strEnc("Authorization"));
+        this->CheckHMAC(val, result->body, this->brandId);
+
+        printf(strEnc("Register Body: %s\n"), result->body.c_str());
+
+        json data = json::parse(result->body);
+        if (data[strEnc("Result")]) {
+            this->LoginAppInfo.Error = strEnc("");
+            this->LoginAppInfo.Time = data[strEnc("Time")].get<uint64_t>();
+            this->LoginAppInfo.Result = data[strEnc("Result")].get<bool>();
+        }
+        else {
+            this->LoginAppInfo.Time = data[strEnc("Time")].get<uint64_t>();
+            this->LoginAppInfo.Result = data[strEnc("Result")].get<bool>();
+            this->LoginAppInfo.Error = data[strEnc("Error")];
+        }
+    }
+}
+
+void Vorpal::redeemLicense(std::string licenseKey) {
+    auto cli = SecureInit();
+
+    cli.set_default_headers({
+        {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
+        {strEnc("ValorKey"), this->GetValorKey()},
+        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")} //TODO: some cool system with user-agents that change every 2 minutes.
+    });
+    httplib::Params params{
+        {strEnc("username"), Utils::base64UrlEncode(username).c_str()},
+        {strEnc("licensekey"), Utils::base64UrlEncode(licenseKey).c_str()}
+    };
+
+    auto result = cli.Post(strEnc("/API/redeemLicense"), params);
+
+    if (result) {
+        if (!result->has_header(strEnc("Authorization"))) {
+            this->CloseProgram();
+        }
+
+        auto val = result->get_header_value(strEnc("Authorization"));
+        this->CheckHMAC(val, result->body, this->brandId);
+
+        printf(strEnc("redeemLicense Body: %s\n"), result->body.c_str());
+
+        json data = json::parse(result->body);
+        if (data[strEnc("Result")]) {
+            this->LoginAppInfo.Error = strEnc("");
+            this->LoginAppInfo.Time = data[strEnc("Time")].get<uint64_t>();
+            this->LoginAppInfo.Result = data[strEnc("Result")].get<bool>();
+        }
+        else {
+            this->LoginAppInfo.Time = data[strEnc("Time")].get<uint64_t>();
+            this->LoginAppInfo.Result = data[strEnc("Result")].get<bool>();
+            this->LoginAppInfo.Error = data[strEnc("Error")];
+        }
+    }
+}
+
 void Vorpal::loginApplication(std::string appId) {
     auto cli = SecureInit();
 

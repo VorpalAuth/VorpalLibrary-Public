@@ -86,11 +86,16 @@ public:
 
 	//GetApplication - Get your application settings such as is Anti-debug enabled, antivm, developer mode?, HWID locked? ect.
 	void GetApplication(std::string appId);
+	//Regist(e)r - ...
+	void registr(std::string username, std::string password, std::string email);
+	
 	//Login - Login request, returns information if it's a valid user with a active license that hasn't expired.
 	void login(std::string username, std::string password);
 
 	void loginApplication(std::string appId);
-
+	
+	//Redeem License, User has to be logged in to use this API.
+	void redeemLicense(std::string licenseKey);
 
 	//Heartbeat to server to make sure connection is still alive & it's a active user.
 	void heartbeat(std::string HashedId, std::string appId);

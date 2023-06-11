@@ -54,13 +54,14 @@ int main() {
     //VorpalAPI::Memory::Threads::GetThreadPool()->Initialize(1); //Register 1 thread space(s)
     //Can cause false positives if memory is modified after the thread... should probably just scan for .text as that's where our vorpalApi is in...
     //VorpalAPI::Memory::Threads::GetThreadPool()->RegisterThread(strEnc("INT"), check);
-
+    //vorpal.registr("test1234", "test12345", "test2@gmail.com");
+    //vorpal.redeemLicense("test-98eabaf3");
     username = "username";
     password = "password";
 
     //Wait for thread to be finished executing...
     std::thread(BrandLogin).join();
- 
+   
     //Double check login results incase of people trying to byte patch login boolean.
     if (login && vorpal.LoginInfo.Result && vorpal.LoginInfo.Error.empty()) {
         //Check if user has a key
@@ -71,7 +72,7 @@ int main() {
                 auto key = vorpal.LoginInfo.Key[i];
 
                 //Look if user has this specific application redeemed.
-                if (strstr(key.ApplicationName.c_str(), strEnc("test"))) {
+                if (strstr(key.ApplicationName.c_str(), strEnc("Fortnite"))) {
                     //User has a license to our application
                     licenseInfo = vorpal.LoginInfo.Key[i];
                     break;
