@@ -4,7 +4,7 @@
 #include "Utilities/Memory/Integrity.h"
 #include "Utilities/Utils.h"
 
-Vorpal vorpal("YOUR_BRAND_ID");
+Vorpal vorpal("YOUR_VALORID");
 
 std::string username, password;
 bool login = false;
@@ -14,7 +14,7 @@ void BrandLogin() {
     auto time = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     auto delta = (time - vorpal.LoginInfo.Time);
     const float min = -5;
-    if (delta <= 60 && delta >= min) {
+    //if (delta <= 60 && delta >= min) {
         if (vorpal.LoginInfo.Error.empty() && vorpal.LoginInfo.Result) {
             if (vorpal.LoginInfo.Username == username) {
                 //Successful Login (:
@@ -32,11 +32,11 @@ void BrandLogin() {
             printf((vorpal.LoginInfo.Error + strEnc("\n")).c_str());
             return;
         }
-    }
+    /*}
     else {
         printf(strEnc("Took longer than 60 seconds to do this request...\n"));
         return;
-    }
+    }*/
     return;
 }
 
@@ -55,9 +55,11 @@ int main() {
     //Can cause false positives if memory is modified after the thread... should probably just scan for .text as that's where our vorpalApi is in...
     //VorpalAPI::Memory::Threads::GetThreadPool()->RegisterThread(strEnc("INT"), check);
     //vorpal.registr("test1234", "test12345", "test2@gmail.com");
-    //vorpal.redeemLicense("test-98eabaf3");
+    //vorpal.redeemLicense("test");
     username = "username";
     password = "password";
+
+    vorpal.GetBrandVariables();
 
     //Wait for thread to be finished executing...
     std::thread(BrandLogin).join();
@@ -72,7 +74,7 @@ int main() {
                 auto key = vorpal.LoginInfo.Key[i];
 
                 //Look if user has this specific application redeemed.
-                if (strstr(key.ApplicationName.c_str(), strEnc("Fortnite"))) {
+                if (strstr(key.ApplicationName.c_str(), strEnc("Apex"))) {
                     //User has a license to our application
                     licenseInfo = vorpal.LoginInfo.Key[i];
                     break;
@@ -82,7 +84,7 @@ int main() {
             vorpal.GetApplication(licenseInfo.AppId);
             if (vorpal.AppInfo.Error.empty()) {
                 //If Application doesn't require a update (Version check)
-                if (vorpal.AppInfo.Version != strEnc("1")) {
+                if (vorpal.AppInfo.Version == strEnc("1")) {
                     //If Application is not in maintenance or developer mode
                     if (!vorpal.AppInfo.Maintenance && !vorpal.AppInfo.Developer) {
                         //Login request to application
@@ -92,8 +94,9 @@ int main() {
                                 //HWID is also checked on server, if hwid mismatches in the request send to server, it will throw a error and have results also be false.
                                 if (vorpal.LoginAppInfo.HWID == VorpalAPI::HWID::grabHWID()) {
                                     if (vorpal.LoginAppInfo.Result) {
-                                        printf(strEnc("Successfully logged into the application...\n"));
+                                        //vorpal.GetVariable("method", licenseInfo.AppId);
 
+                                        //vorpal.GetFile("product", licenseInfo.AppId);
                                        
                                     }
                                     else {

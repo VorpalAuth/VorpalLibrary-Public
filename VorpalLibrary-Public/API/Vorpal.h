@@ -76,6 +76,7 @@ private:
 	std::string GetValorKey();
 	std::string username;
 	std::string password;
+	std::string sessionId;
 
 	inline void CheckHMAC(std::string hmac, std::string body, std::string appId);
 	inline void CloseProgram();
@@ -100,7 +101,10 @@ public:
 	//Heartbeat to server to make sure connection is still alive & it's a active user.
 	void heartbeat(std::string HashedId, std::string appId);
 
-
+	//Brand 
+	void GetBrandVariables();
+	void GetBrandVariable(std::string key);
+	//Application specific (Require a valid session)
 	void GetVariable(std::string key, std::string appId);
 	std::string GetFile(std::string key, std::string appId);
 

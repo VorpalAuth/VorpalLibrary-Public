@@ -67,7 +67,7 @@ httplib::Client SecureInit() {
     //Cert pinning, not always ideal. but does make it more secure, it can change the expectedpKey over time sometimes (due to server getting a new cert) 
     //Hence why it might not be ideal for every user.
 #ifdef CERT_PINNING
-    SSL_CTX_set_verify(cli.ssl_context(), SSL_VERIFY_PEER, verifyCallback);
+    //SSL_CTX_set_verify(cli.ssl_context(), SSL_VERIFY_PEER, verifyCallback);
 #endif
 
     const char* cert =
@@ -130,8 +130,9 @@ void Vorpal::GetApplication(std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")} //TODO: some cool system with user-agents that change every 2 minutes.
-        });
+        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")}, //TODO: some cool system with user-agents that change every 2 minutes.
+
+    });
 
     auto result = cli.Post(strEnc("/API/checkApplication"), strEnc(""), strEnc("application/x-www-form-urlencoded"));
 
@@ -177,7 +178,7 @@ void Vorpal::registr(std::string username, std::string password, std::string ema
         {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
         {strEnc("ValorKey"), this->GetValorKey()},
         {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")} //TODO: some cool system with user-agents that change every 2 minutes.
-        });
+    });
 
     httplib::Params params{
         { strEnc("username"), Utils::base64UrlEncode(username).c_str() },
@@ -195,7 +196,7 @@ void Vorpal::registr(std::string username, std::string password, std::string ema
         auto val = result->get_header_value(strEnc("Authorization"));
         this->CheckHMAC(val, result->body, this->brandId);
 
-        printf(strEnc("Register Body: %s\n"), result->body.c_str());
+        LOG(strEnc("Register Body: %s\n"), result->body.c_str());
 
         json data = json::parse(result->body);
         if (data[strEnc("Result")]) {
@@ -234,7 +235,7 @@ void Vorpal::redeemLicense(std::string licenseKey) {
         auto val = result->get_header_value(strEnc("Authorization"));
         this->CheckHMAC(val, result->body, this->brandId);
 
-        printf(strEnc("redeemLicense Body: %s\n"), result->body.c_str());
+        LOG(strEnc("redeemLicense Body: %s\n"), result->body.c_str());
 
         json data = json::parse(result->body);
         if (data[strEnc("Result")]) {
@@ -280,6 +281,14 @@ void Vorpal::loginApplication(std::string appId) {
 
         json data = json::parse(result->body);
         if (data[strEnc("Result")]) {
+
+            if (!result->has_header(strEnc("Session"))) {
+                this->CloseProgram();
+            }
+
+            // Get the "Set-Cookie" header from the response
+            this->sessionId = result->get_header_value(strEnc("Session"));
+
             this->LoginAppInfo.Error = strEnc("");
             this->LoginAppInfo.HashedID = data[strEnc("HashedID")];
             this->LoginAppInfo.Username = data[strEnc("Username")];
@@ -328,7 +337,7 @@ void Vorpal::login(std::string username, std::string password) {
         auto val = result->get_header_value(strEnc("Authorization"));
         this->CheckHMAC(val, result->body, this->brandId);
 
-        printf(strEnc("login Body: %s\n"), result->body.c_str());
+        LOG(strEnc("login Body: %s\n"), result->body.c_str());
 
         json data = json::parse(result->body);
         if (data[strEnc("Result")]) {
@@ -396,7 +405,8 @@ void Vorpal::heartbeat(std::string HashedId, std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")} //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("Session"), this->sessionId}
     });
 
     httplib::Params params{
@@ -441,7 +451,8 @@ std::string Vorpal::GetFile(std::string key, std::string appId) {
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
         {strEnc("VariableKey"), Utils::base64UrlEncode(key)},
-        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")} //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("Session"), this->sessionId}
     });
 
     auto result = cli.Post(strEnc("/API/variablefile"), strEnc(""), strEnc("application/x-www-form-urlencoded"));
@@ -453,6 +464,7 @@ std::string Vorpal::GetFile(std::string key, std::string appId) {
         }
 
         auto val = result->get_header_value(strEnc("Authorization"));
+        //For some reason {\"embeds\":[\"0\"} gets added randomly on file api sometimes, with no reason. making it fail the checkHmac.
         this->CheckHMAC(val, result->body, appId);
 
         LOG(strEnc("GetFile Body: %s\n"), result->body.c_str());
@@ -472,6 +484,80 @@ std::string Vorpal::GetFile(std::string key, std::string appId) {
     return "";
 }
 
+void Vorpal::GetBrandVariables() {
+    auto cli = SecureInit();
+
+    cli.set_default_headers({
+        {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
+        {strEnc("ValorKey"), this->GetValorKey()},
+        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("Session"), this->sessionId}
+        });
+
+    auto result = cli.Post(strEnc("/API/brandvariables"), strEnc(""), strEnc("application/x-www-form-urlencoded"));
+
+    if (result) {
+        if (!result->has_header(strEnc("Authorization"))) {
+            this->CloseProgram();
+        }
+
+        auto val = result->get_header_value(strEnc("Authorization"));
+        this->CheckHMAC(val, result->body, this->brandId);
+
+        LOG(strEnc("GetBrandVariable Body: %s\n"), result->body.c_str());
+
+        json data = json::parse(result->body);
+
+        if (data[strEnc("Result")]) {
+            
+        }
+        else {
+
+        }
+    }
+}
+
+
+void Vorpal::GetBrandVariable(std::string key) {
+    auto cli = SecureInit();
+
+    cli.set_default_headers({
+        {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
+        {strEnc("ValorKey"), this->GetValorKey()},
+        {strEnc("VariableKey"), Utils::base64UrlEncode(key)},
+        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        });
+
+    auto result = cli.Post(strEnc("/API/brandvariable"), strEnc(""), strEnc("application/x-www-form-urlencoded"));
+
+    if (result) {
+        if (!result->has_header(strEnc("Authorization"))) {
+            this->CloseProgram();
+        }
+
+        auto val = result->get_header_value(strEnc("Authorization"));
+        this->CheckHMAC(val, result->body, this->brandId);
+
+        LOG(strEnc("GetBrandVariable Body: %s\n"), result->body.c_str());
+
+        json data = json::parse(result->body);
+
+        if (data[strEnc("Result")]) {
+            //this->currentVar = (std::string)data[key.c_str()];
+            this->currentVar = (std::string)data[key.c_str()];
+            this->VarInfo.Error = strEnc("");
+            this->VarInfo.Time = data[strEnc("Time")].get<uint64_t>();
+            this->VarInfo.Result = data[strEnc("Result")].get<bool>();
+        }
+        else {
+            this->VarInfo.Time = data[strEnc("Time")].get<uint64_t>();
+            this->VarInfo.Result = data[strEnc("Result")].get<bool>();
+            this->VarInfo.Error = data[strEnc("Error")];
+        }
+    }
+}
+
+
 void Vorpal::GetVariable(std::string key, std::string appId) {
     auto cli = SecureInit();
 
@@ -479,13 +565,13 @@ void Vorpal::GetVariable(std::string key, std::string appId) {
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
         {strEnc("VariableKey"), Utils::base64UrlEncode(key)},
-        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")} //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("7ab8b60c21ee115ab6c986eb975f8c96")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("Session"), this->sessionId}
     });
 
     auto result = cli.Post(strEnc("/API/variable"), strEnc(""), strEnc("application/x-www-form-urlencoded"));
 
     if (result) {
-
         if (!result->has_header(strEnc("Authorization"))) {
             this->CloseProgram();
         }
