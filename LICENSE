@@ -1,0 +1,57 @@
+Vorpal Library Software License - Version 1.0
+
+IMPORTANT: PLEASE READ THIS SOFTWARE LICENSE AGREEMENT CAREFULLY BEFORE USING VORPAL LIBRARY. BY USING, COPYING, MODIFYING, MERGING, PUBLISHING, DISTRIBUTING, OR OTHERWISE UTILIZING VORPAL LIBRARY, YOU AGREE TO BE BOUND BY THE TERMS AND CONDITIONS OF THIS LICENSE AGREEMENT. IF YOU DO NOT AGREE TO THESE TERMS, DO NOT USE THE VORPAL LIBRARY.
+
+1. Definitions
+
+a. "Vorpal Library" refers to the software library known as "Vorpal Library" developed and owned by Vorpal.
+
+b. "Vorpal" refers to the company, Vorpal, which is the owner of Vorpal Library.
+
+c. "Vorpal Authentication System" refers to the proprietary authentication system developed and owned by Vorpal at vorpal.gg.
+
+2. License Grant
+
+Subject to the terms and conditions of this Software License Agreement, Vorpal grants you a non-exclusive, non-transferable, revocable license to use, copy, modify, merge, publish, distribute, and display Vorpal Library for lawful purposes, provided that such usage is not for the development or creation of a competing Authentication System that directly competes with Vorpal Authentication System.
+
+3. Restrictions
+
+You may not use Vorpal Library for the purpose of creating, developing, or supporting any Authentication System that directly competes with Vorpal Authentication System. This restriction includes, but is not limited to, any system designed to offer similar or identical authentication services, methods, or protocols to Vorpal Authentication System, regardless of whether such system is for commercial or non-commercial purposes.
+
+4. Intellectual Property
+
+Vorpal Library is the copyrighted work of Vorpal, and all intellectual property rights to Vorpal Library, including but not limited to copyrights, patents, trademarks, and trade secrets, are owned by Vorpal.
+
+5. No Warranty
+
+Vorpal Library is provided "as is," without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement. Vorpal does not warrant that the operation of Vorpal Library will be uninterrupted or error-free, or that any defects in Vorpal Library will be corrected.
+
+6. Limitation of Liability
+
+In no event shall Vorpal be liable for any damages (including, without limitation, direct, indirect, special, incidental, or consequential damages, lost profits, or damages resulting from lost data or business interruption) arising out of the use, inability to use, or results of Vorpal Library, whether based on warranty, contract, tort, or any other legal theory, and whether or not Vorpal has been advised of the possibility of such damages.
+
+7. Distribution of the Same License
+
+If you distribute copies or modified versions of Vorpal Library, you must ensure that the recipients receive, access, or can obtain a copy of this License Agreement and are provided with the same license terms and conditions as set forth herein.
+
+8. Termination
+
+This License Agreement is effective from the date you first use Vorpal Library. Vorpal may terminate this License Agreement immediately and without notice if you fail to comply with any of its terms. Upon termination, you must cease all use of Vorpal Library and destroy all copies, full or partial, of Vorpal Library in your possession or control.
+
+9. Governing Law and Jurisdiction
+
+This License Agreement shall be governed by and construed in accordance with the laws of the jurisdiction of Vorpal's principal place of business, without regard to its conflicts of law principles. Any dispute arising from or relating to this License Agreement shall be subject to the exclusive jurisdiction of the courts located in the jurisdiction of Vorpal's principal place of business.
+
+10. Changes to this License Agreement
+
+Vorpal reserves the right to modify this License Agreement at any time. Any such changes will be effective immediately upon posting the updated License Agreement on the Vorpal Library's GitHub repository or any other official channels designated by Vorpal. Your continued use of Vorpal Library following any changes to this License Agreement constitutes your acceptance of such changes.
+
+11. Entire Agreement
+
+This License Agreement constitutes the entire agreement between you and Vorpal concerning the subject matter hereof and supersedes all prior or contemporaneous oral or written agreements. This License Agreement may not be amended except in writing signed by both parties.
+
+By using Vorpal Library, you acknowledge that you have read, understood, and agree to be bound by the terms and conditions of this License Agreement as of the year 2023.
+
+For any questions or concerns regarding this License Agreement, please contact Vorpal at legal@vorpal.gg.
+
+© 2023 Vorpal. All rights reserved.
