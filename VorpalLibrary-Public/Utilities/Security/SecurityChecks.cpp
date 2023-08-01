@@ -1,3 +1,10 @@
+/**
+* Copyright (C) 2023 Vorpal. All rights reserved.
+*
+* Licensed under the Vorpal Library Software License. You may obtain a copy
+* in the file "LICENSE" found at the root of this repository.
+*/
+
 #include "common.h"
 #include "Utilities/Utils.h"
 #include "Utilities/Memory/PE.h"
@@ -28,7 +35,7 @@ namespace VorpalAPI {
 			return (rva - psh->VirtualAddress + psh->PointerToRawData);
 		}
 
-		//Stackoverflow... forgot url :(
+		//Thanks Peter for this one <3
         int verifySignature(const wchar_t* file_path) {
             int ret = 0;
             long status = 0;

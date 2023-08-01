@@ -1,3 +1,10 @@
+/**
+* Copyright (C) 2023 Vorpal. All rights reserved.
+*
+* Licensed under the Vorpal Library Software License. You may obtain a copy
+* in the file "LICENSE" found at the root of this repository.
+*/
+
 #include "baseboard.h"
 #include "common.h"
 
@@ -5,29 +12,31 @@ namespace VorpalAPI {
     namespace HWID {
         namespace BASEBOARD {
 
-            //Forgot where i stole this from sorry. creds to you when i find it again.
-            const char* dmi_string(const dmi_header* dm, BYTE s) {
-                char* bp = (char*)dm;
-                size_t i, len;
+            const char* dmiString(const dmi_header* d, BYTE s) {
+                char* bp = (char*)d;
 
                 if (s == 0)
-                    return strEnc("Not Specified");
+                    return "Unspecified";
 
-                bp += dm->length;
+                bp += d->length;
 
                 while (s > 1 && *bp) {
                     bp += strlen(bp);
                     bp++;
+
                     s--;
                 }
-                if (!*bp)
-                    return strEnc("BAD_INDEX");
 
-                /* ASCII filtering */
-                len = strlen(bp);
-                for (i = 0; i < len; i++)
+                if (!*bp)
+                    return "BAD_INDEX";
+
+                /* ASCII filtering and buffer for filtered string */
+                size_t len = strlen(bp);
+                for (size_t i = 0; i < len; i++)
                     if (bp[i] < 32 || bp[i] == 127)
                         bp[i] = '.';
+
+
                 return bp;
             }
 
