@@ -16,7 +16,8 @@ TODO: examples
 While the Vorpal Library is **not** an open source project, we provide it's source code on this repository and you are free to use, modify, audit, distribute... (pretty much anything you or your company may want to do) as long as you don't use any code found here to either build or support a competing Authentication System.
 <br/>
 <br/>
-More information in the "LICENSE" file at the root of this repository, or click [here](https://github.com/VorpalAuth/VorpalLibrary-Public/blob/main/LICENSE)
+More information can be found in the "LICENSE" file at the root of this repository, or click [here](https://github.com/VorpalAuth/VorpalLibrary-Public/blob/main/LICENSE)
+<br/>
 If you have any enquiries, or the license doesn't work for your or your company's use-case you can reach us out [here](mailto:legal@vorpal.gg).
 
 
