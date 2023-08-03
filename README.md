@@ -22,7 +22,7 @@ If you have any enquiries, or the license doesn't work for your or your company'
 
 
 ## Credits
-Vorpal Library uses high quality open source projects which are licensed under their own licenses and not the Vorpal Library Software License.
+Vorpal Library uses high quality open source projects to provide certain functionality which are licensed under their own licenses and not the Vorpal Library Software License.
 
 - [Botan](https://github.com/randombit/botan)
 - [Open SSL](https://github.com/openssl/openssl)
