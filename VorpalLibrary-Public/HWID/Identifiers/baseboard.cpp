@@ -101,7 +101,7 @@ namespace VorpalAPI {
                     dmi_header* h = (dmi_header*)p;
 
                     if (h->type == 1) {
-                        serial += dmi_string(h, p[0x7]);
+                        serial += dmiString(h, p[0x7]);
                         serial += strEnc("_");
                         serial += dmi_system_uuid(p + 0x8, biosData->SMBIOSMajorVersion * 0x100 + biosData->SMBIOSMinorVersion);
                     }
