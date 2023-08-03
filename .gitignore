@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+.vs/Vorpal Example/v16/.suo
+.vs/Vorpal Example/v16/Browse.VC.db
+.vs/Vorpal Example/v16/ipch/AutoPCH/b56fb7a25f691cde/VORPAL.ipch
+VorpalLibrary-Public/x64/Release/vc142.pdb
+VorpalLibrary-Public/x64/Release/VorpalLi.ccae480f.tlog/CL.command.1.tlog
+VorpalLibrary-Public/x64/Release/VorpalLi.ccae480f.tlog/CL.write.1.tlog
+VorpalLibrary-Public/x64/Release/VorpalLibrary-Public.log
+VorpalLibrary-Public/x64/Release/VorpalLi.ccae480f.tlog/CL.read.1.tlog

@@ -1,7 +1,3 @@
-﻿  baseboard.cpp
-C:\Users\P\Documents\GitHub\VorpalLibrary-Public\VorpalLibrary-Public\HWID\Identifiers\baseboard.h(28,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
-C:\Users\P\Documents\GitHub\VorpalLibrary-Public\VorpalLibrary-Public\HWID\Identifiers\baseboard.h(28,25): message : This member will be ignored by a defaulted constructor or copy/move assignment operator
-C:\Users\P\Documents\GitHub\VorpalLibrary-Public\VorpalLibrary-Public\HWID\Identifiers\baseboard.cpp(86,80): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
-C:\Users\P\Documents\GitHub\VorpalLibrary-Public\VorpalLibrary-Public\HWID\Identifiers\baseboard.cpp(100,35): warning C4018: '<': signed/unsigned mismatch
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(1074,5): error MSB6006: "link.exe" exited with code 1181.
+﻿  Vorpal.cpp
 LINK : fatal error LNK1181: cannot open input file 'botan-3.lib'
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(1074,5): error MSB6006: "link.exe" exited with code 1181.

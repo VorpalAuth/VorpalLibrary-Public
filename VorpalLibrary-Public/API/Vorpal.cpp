@@ -457,12 +457,13 @@ std::string Vorpal::GetFile(std::string key, std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("VariableKey"), Utils::base64UrlEncode(key)},
         {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
         {strEnc("Session"), this->sessionId}
     });
-
-    auto result = cli.Post(strEnc("/API/variablefile"), strEnc(""), strEnc("application/x-www-form-urlencoded"));
+    httplib::Params params{
+        { strEnc("VariableKey"), Utils::base64UrlEncode(key) }
+    };
+    auto result = cli.Post(strEnc("/API/variablefile"), params);
 
     if (result) {
 
@@ -531,11 +532,14 @@ void Vorpal::GetBrandVariable(std::string key) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("VariableKey"), Utils::base64UrlEncode(key)},
         {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
         });
 
-    auto result = cli.Post(strEnc("/API/brandvariable"), strEnc(""), strEnc("application/x-www-form-urlencoded"));
+    httplib::Params params{
+        { strEnc("VariableKey"), Utils::base64UrlEncode(key) }
+    };
+
+    auto result = cli.Post(strEnc("/API/brandvariable"), params);
 
     if (result) {
         if (!result->has_header(strEnc("Authorization"))) {
@@ -571,12 +575,15 @@ void Vorpal::GetVariable(std::string key, std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("VariableKey"), Utils::base64UrlEncode(key)},
         {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
         {strEnc("Session"), this->sessionId}
     });
 
-    auto result = cli.Post(strEnc("/API/variable"), strEnc(""), strEnc("application/x-www-form-urlencoded"));
+    httplib::Params params{
+        { strEnc("VariableKey"), Utils::base64UrlEncode(key) }
+    };
+
+    auto result = cli.Post(strEnc("/API/variable"), params);
 
     if (result) {
         if (!result->has_header(strEnc("Authorization"))) {
