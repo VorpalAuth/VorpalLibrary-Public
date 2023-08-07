@@ -137,7 +137,7 @@ void Vorpal::GetApplication(std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")}, //TODO: some cool system with user-agents that change every 2 minutes.
 
     });
 
@@ -184,7 +184,7 @@ void Vorpal::registr(std::string username, std::string password, std::string ema
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")} //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")} //TODO: some cool system with user-agents that change every 2 minutes.
     });
 
     httplib::Params params{
@@ -225,7 +225,7 @@ void Vorpal::redeemLicense(std::string licenseKey) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")} //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")} //TODO: some cool system with user-agents that change every 2 minutes.
     });
     httplib::Params params{
         {strEnc("username"), Utils::base64UrlEncode(username).c_str()},
@@ -264,7 +264,7 @@ void Vorpal::loginApplication(std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")} //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")} //TODO: some cool system with user-agents that change every 2 minutes.
     });
 
     httplib::Params params{
@@ -325,7 +325,7 @@ void Vorpal::login(std::string username, std::string password) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")} //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")} //TODO: some cool system with user-agents that change every 2 minutes.
     });
 
     httplib::Params params{
@@ -412,7 +412,7 @@ void Vorpal::heartbeat(std::string HashedId, std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")}, //TODO: some cool system with user-agents that change every 2 minutes.
         {strEnc("Session"), this->sessionId}
     });
 
@@ -457,7 +457,7 @@ std::string Vorpal::GetFile(std::string key, std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")}, //TODO: some cool system with user-agents that change every 2 minutes.
         {strEnc("Session"), this->sessionId}
     });
     httplib::Params params{
@@ -498,7 +498,7 @@ void Vorpal::GetBrandVariables() {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")}, //TODO: some cool system with user-agents that change every 2 minutes.
         {strEnc("Session"), this->sessionId}
         });
 
@@ -532,7 +532,7 @@ void Vorpal::GetBrandVariable(std::string key) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(this->brandId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")}, //TODO: some cool system with user-agents that change every 2 minutes.
         });
 
     httplib::Params params{
@@ -575,7 +575,7 @@ void Vorpal::GetVariable(std::string key, std::string appId) {
     cli.set_default_headers({
         {strEnc("ValorId"), Utils::base64UrlEncode(appId)},
         {strEnc("ValorKey"), this->GetValorKey()},
-        {strEnc("User-Agent"), strEnc("Vorpal Client 1.0")}, //TODO: some cool system with user-agents that change every 2 minutes.
+        {strEnc("User-Agent"), strEnc("Vorpal API")}, //TODO: some cool system with user-agents that change every 2 minutes.
         {strEnc("Session"), this->sessionId}
     });
 
